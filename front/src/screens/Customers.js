@@ -1,0 +1,68 @@
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCustomers,
+  // addCustomersAsync,
+  deleteCustomersAsync,
+  getCustomersAsync,
+} from "../app/customersSlice";
+import '../App.css'
+import Table from 'react-bootstrap/Table';
+
+const Customers = () => {
+  const myCustomers = useSelector(selectCustomers);
+  const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    dispatch(getCustomersAsync());
+  }, []);
+
+  return (
+    <div>
+      <br /><br /><br /><br />
+      Search by name: <input onChange={(e) => setSearch(e.target.value)} />
+      <br />We have {myCustomers.length} Customers in my site
+
+
+      <Table striped bordered hover variant="dark">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Adress</th>
+          <th>Phone</th>
+          {/* <th>Created Time</th> */}
+          {/* <th>User Name</th> */}
+          {/* <th>Email</th> */}
+          <th></th>
+          
+        </tr>
+      </thead>
+      {myCustomers.length >0 && myCustomers
+      .filter((x) =>
+      x.First_Name.includes(search))
+      .map((customer,i) => (
+      <tbody key={i}>
+        <tr>
+          <td>{customer.id}</td>
+          <td>{customer.First_Name}</td>
+          <td>{customer.Last_Name}</td>
+          <td>{customer.Address}</td>
+          <td>{customer.Phone_No}</td>
+          {/* <td>{customer.createdTime.split("").filter((s,i) => i<=9)}</td> */}
+          {/* <td>{customer.user.username}</td>
+          <td>{customer.user.email}</td> */}
+          <td>
+          <button onClick={() => dispatch(deleteCustomersAsync({ id: customer.id }))} >
+              Delete</button>
+          </td>
+        </tr>
+      </tbody>
+      ))}
+    </Table>
+    </div>
+  );
+};
+
+export default Customers;
