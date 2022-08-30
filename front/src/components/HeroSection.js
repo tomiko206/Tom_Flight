@@ -9,7 +9,7 @@ const HeroSection = () => {
       <br></br>
       <br></br>
       <h1>Tom's Flight</h1>
-      <h1>Come Fly With Us?</h1>
+      <h1>Come Fly With Us</h1>
     </div>
   );
 }
